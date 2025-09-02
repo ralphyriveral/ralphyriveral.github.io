@@ -1,0 +1,269 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ralphy G. Riveral - Video Editor Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+        }
+
+        nav {
+            background: #34495e;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        section {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .project-card {
+            background: #f9f9f9;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill {
+            background: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .resume-section {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .resume-section ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+        }
+
+        .resume-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            nav a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ralphy G. Riveral</h1>
+        <p>Video Editor | Virtual Assistant | Content Creator</p>
+    </header>
+
+    <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="about">
+        <h2>About</h2>
+        <p>
+            I am a professional with over a decade of experience in video editing, virtual assistance, and digital content creation. I specialize in creating engaging tutorials, promotional videos, and graphics using tools like Wondershare Filmora, Canva, and HeyGen. My background in Business Administration and C1 Advanced English certification enable me to deliver high-quality work and communicate effectively in global settings. I excel in fast-paced environments, leveraging strong analytical skills and a passion for producing impactful visual content.
+        </p>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="project-card">
+            <h3>Digital Marketing Assistant - ITAS Solutions</h3>
+            <p>Created and published Facebook posts using Canva for graphics, photos, and videos. Designed and developed the official website using WordPress. Planned, executed, and optimized Facebook advertising campaigns.</p>
+            <a href="https://trysimplfy.com/" target="_blank">View Website</a> | <a href="https://www.facebook.com/trySimplifyAI" target="_blank">View Facebook Page</a>
+        </div>
+        <div class="project-card">
+            <h3>Data Entry Specialist | Administrative Assistant | Funnel Testing - Exercises For Injuries</h3>
+            <p>Created instructional videos using Wondershare Filmora and Canva. Conducted A/B testing and funnel analysis to optimize conversion rates.</p>
+        </div>
+        <div class="project-card">
+            <h3>Data Entry Specialist | Lead Generation | Web Research Assistant - Brightgreen Lighting Store</h3>
+            <p>Designed promotional graphics using Canva to support marketing initiatives, enhancing brand visibility.</p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills-list">
+            <span class="skill">Video Editing (Wondershare Filmora)</span>
+            <span class="skill">Canva</span>
+            <span class="skill">HeyGen</span>
+            <span class="skill">Web Research</span>
+            <span class="skill">Lead Generation</span>
+            <span class="skill">Process Automation</span>
+            <span class="skill">Analytical Thinking</span>
+            <span class="skill">Time Management</span>
+            <span class="skill">Clear Communication</span>
+            <span class="skill">Team Collaboration</span>
+            <span class="skill">Problem-Solving</span>
+            <span class="skill">Attention to Detail</span>
+        </div>
+    </section>
+
+    <section id="resume">
+        <h2>Resume</h2>
+        <div class="resume-section">
+            <p><strong>Download Full Resume:</strong> <a href="Ralphy Riveral CV 2025.pdf" download>Download PDF</a> (Host this PDF file alongside your index.html on your hosting platform.)</p>
+
+            <h3>Work History</h3>
+            <ul>
+                <li><strong>Data Team Assistant - Creo Networks, California, United States (January 2025 – August 2025)</strong>: Managed GEO Database and Marketplace Relational Database, ensuring data accuracy and accessibility. Performed high-volume data entry, data mining, and optimized workflows using Google Sheets.</li>
+                <li><strong>Digital Marketing Assistant - ITAS Solutions, Texas, United States (November 2024 – January 2025)</strong>: Entered and managed data using Google Docs and Sheets. Served as affiliate partner, designed website using WordPress, managed Facebook page and ads, created posts with Canva.</li>
+                <li><strong>Data Entry Specialist | Administrative Assistant | Funnel Testing - Exercises For Injuries, British Columbia, Canada (March 2017 – November 2024)</strong>: Managed data entry with Keap, conducted A/B testing, created instructional videos with Wondershare Filmora and Canva, streamlined workflows with Trello and ProcessStreet, performed web research.</li>
+                <li><strong>Data Entry Specialist | Lead Generation | Web Research Assistant - Brightgreen Lighting Store, Victoria, Australia (January 2015 – February 2017)</strong>: Updated product listings, conducted web research, utilized Google Sheets and Shopify, designed graphics with Canva.</li>
+                <li><strong>Customer Support Representative - Convergys, Davao, Philippines (June 2014 – December 2014)</strong>: Delivered support via chat and email for Macy’s.com.</li>
+                <li><strong>Technical Support Representative - VXI Global Solutions, LLC, Davao, Philippines (April 2012 – April 2014)</strong>: Provided technical assistance for AT&T, documented processes using Google Docs.</li>
+                <li><strong>Customer & Technical Support Representative - Sutherland Global Services, Inc., Davao, Philippines (June 2009 – February 2012)</strong>: Supported clients through multiple channels, trained new hires.</li>
+            </ul>
+
+            <h3>Education</h3>
+            <p>Bachelor of Science in Commerce, Major in Business Administration - University of the Immaculate Conception, Davao City, Philippines (2005 – 2009)</p>
+
+            <h3>Certifications</h3>
+            <ul>
+                <li>C1 Advanced (Cambridge English): Demonstrating advanced proficiency in English for professional and global communication.</li>
+            </ul>
+
+            <h3>References</h3>
+            <ul>
+                <li>Royce Mitchell - Email: royce3@gmail.com | WhatsApp: +1832 428 8941</li>
+                <li>Josephus Diaz - Email: josephusbdiaz@gmail.com | Mobile Phone: +63916 880 2866</li>
+                <li>Sundy Gamale - Email: tgrsundy@yahoo.com | Mobile Phone: +63917 542 7890</li>
+                <li>Nicole Kate Bagarinao - Email: nika.vabb@gmail.com | Mobile Phone: +63995 412 3732</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:ralphygriveral@gmail.com">ralphygriveral@gmail.com</a></p>
+        <p>Phone: 0939-916-0879</p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/ralphyriveral" target="_blank">linkedin.com/in/ralphyriveral</a></p>
+        <p>Location: Davao City, Philippines</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Ralphy G. Riveral. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const sectionId = this.getAttribute('href').substring(1);
+                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
