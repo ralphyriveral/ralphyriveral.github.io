@@ -42,93 +42,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ralphy G. Riveral - Video Editor Portfolio</title>
+    <title>Ralphy G. Riveral - Creative Video Editor Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
             line-height: 1.6;
             color: #333;
+            background-color: #f4f4f4;
         }
 
         header {
-            background: #2c3e50;
-            color: white;
+            position: relative;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 2rem;
+            color: white;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://source.unsplash.com/random/1920x1080/?video,editing') no-repeat center center/cover;
+            filter: brightness(0.5);
+            z-index: -1;
         }
 
         header h1 {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        header p {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .cta-button {
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .cta-button:hover {
+            background: #ff4757;
         }
 
         nav {
-            background: #34495e;
+            background: rgba(44, 62, 80, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 10;
             padding: 1rem;
+            text-align: center;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            margin: 0 1rem;
-            font-weight: bold;
+            margin: 0 1.5rem;
+            font-weight: 600;
+            transition: color 0.3s;
         }
 
         nav a:hover {
-            color: #3498db;
+            color: #ff6b6b;
         }
 
         section {
-            padding: 2rem;
-            max-width: 1000px;
+            padding: 4rem 2rem;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         h2 {
+            font-size: 2.5rem;
             color: #2c3e50;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: #ff6b6b;
+            margin: 0.5rem auto 0;
+        }
+
+        #about p {
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .project-card {
-            background: #f9f9f9;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .skills-list {
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-card .content {
+            padding: 1.5rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card p {
+            margin-bottom: 1rem;
+        }
+
+        .project-card a {
+            color: #ff6b6b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .project-card a:hover {
+            text-decoration: underline;
+        }
+
+        .video-embed {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .video-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .skills-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            justify-content: center;
+            gap: 1rem;
         }
 
         .skill {
             background: #3498db;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .skill:hover {
+            background: #2980b9;
+        }
+
+        .skill i {
+            margin-right: 0.5rem;
         }
 
         .resume-section {
-            background: #f9f9f9;
-            padding: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .resume-section h3 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin: 1.5rem 0 0.5rem;
         }
 
         .resume-section ul {
-            list-style-type: disc;
-            margin-left: 1.5rem;
+            list-style-type: none;
         }
 
         .resume-section li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .resume-section li::before {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+        }
+
+        #contact {
+            text-align: center;
+        }
+
+        #contact p {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        #contact a {
+            color: #ff6b6b;
+            text-decoration: none;
+        }
+
+        #contact a:hover {
+            text-decoration: underline;
         }
 
         footer {
@@ -136,27 +305,37 @@
             color: white;
             text-align: center;
             padding: 1rem;
-            position: relative;
-            bottom: 0;
-            width: 100%;
+            margin-top: 2rem;
         }
 
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 1.8rem;
-            }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-            nav a {
-                display: block;
-                margin: 0.5rem 0;
-            }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            header p { font-size: 1.2rem; }
+            nav a { margin: 0 0.5rem; font-size: 0.9rem; }
+            section { padding: 3rem 1rem; }
         }
     </style>
 </head>
 <body>
     <header>
         <h1>Ralphy G. Riveral</h1>
-        <p>Video Editor | Virtual Assistant | Content Creator</p>
+        <p>Creative Video Editor | Virtual Assistant | Content Creator</p>
+        <a href="#contact" class="cta-button">Get in Touch</a>
     </header>
 
     <nav>
@@ -168,51 +347,64 @@
     </nav>
 
     <section id="about">
-        <h2>About</h2>
+        <h2>About Me</h2>
         <p>
             I am a professional with over a decade of experience in video editing, virtual assistance, and digital content creation. I specialize in creating engaging tutorials, promotional videos, and graphics using tools like Wondershare Filmora, Canva, and HeyGen. My background in Business Administration and C1 Advanced English certification enable me to deliver high-quality work and communicate effectively in global settings. I excel in fast-paced environments, leveraging strong analytical skills and a passion for producing impactful visual content.
         </p>
     </section>
 
-    <section id="projects">
-        <h2>Projects</h2>
-        <div class="project-card">
-            <h3>Digital Marketing Assistant - ITAS Solutions</h3>
-            <p>Created and published Facebook posts using Canva for graphics, photos, and videos. Designed and developed the official website using WordPress. Planned, executed, and optimized Facebook advertising campaigns.</p>
-            <a href="https://trysimplfy.com/" target="_blank">View Website</a> | <a href="https://www.facebook.com/trySimplifyAI" target="_blank">View Facebook Page</a>
-        </div>
-        <div class="project-card">
-            <h3>Data Entry Specialist | Administrative Assistant | Funnel Testing - Exercises For Injuries</h3>
-            <p>Created instructional videos using Wondershare Filmora and Canva. Conducted A/B testing and funnel analysis to optimize conversion rates.</p>
-        </div>
-        <div class="project-card">
-            <h3>Data Entry Specialist | Lead Generation | Web Research Assistant - Brightgreen Lighting Store</h3>
-            <p>Designed promotional graphics using Canva to support marketing initiatives, enhancing brand visibility.</p>
+    <section id="projects" style="background: #fff;">
+        <h2>Featured Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <img src="https://source.unsplash.com/random/400x200/?video,editing" alt="Project Image">
+                <div class="content">
+                    <h3>Digital Marketing Assistant - ITAS Solutions</h3>
+                    <p>Created and published Facebook posts using Canva for graphics, photos, and videos. Designed and developed the official website using WordPress. Planned, executed, and optimized Facebook advertising campaigns.</p>
+                    <a href="https://trysimplfy.com/" target="_blank">View Website</a> | <a href="https://www.facebook.com/trySimplifyAI" target="_blank">View Facebook Page</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="video-embed">
+                    <iframe src="https://www.youtube.com/embed/LQ4muzqk7JA" title="Example Instructional Video" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="content">
+                    <h3>Instructional Videos - Exercises For Injuries</h3>
+                    <p>Created instructional videos using Wondershare Filmora and Canva. Conducted A/B testing and funnel analysis to optimize conversion rates. (Example video from the channel where similar content was produced.)</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://source.unsplash.com/random/400x200/?graphic,design" alt="Project Image">
+                <div class="content">
+                    <h3>Promotional Graphics - Brightgreen Lighting Store</h3>
+                    <p>Designed promotional graphics using Canva to support marketing initiatives, enhancing brand visibility.</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="skills">
-        <h2>Skills</h2>
-        <div class="skills-list">
-            <span class="skill">Video Editing (Wondershare Filmora)</span>
-            <span class="skill">Canva</span>
-            <span class="skill">HeyGen</span>
-            <span class="skill">Web Research</span>
-            <span class="skill">Lead Generation</span>
-            <span class="skill">Process Automation</span>
-            <span class="skill">Analytical Thinking</span>
-            <span class="skill">Time Management</span>
-            <span class="skill">Clear Communication</span>
-            <span class="skill">Team Collaboration</span>
-            <span class="skill">Problem-Solving</span>
-            <span class="skill">Attention to Detail</span>
+        <h2>My Skills</h2>
+        <div class="skills-grid">
+            <span class="skill"><i class="fas fa-video"></i> Video Editing (Wondershare Filmora)</span>
+            <span class="skill"><i class="fas fa-palette"></i> Canva</span>
+            <span class="skill"><i class="fas fa-robot"></i> HeyGen</span>
+            <span class="skill"><i class="fas fa-search"></i> Web Research</span>
+            <span class="skill"><i class="fas fa-users"></i> Lead Generation</span>
+            <span class="skill"><i class="fas fa-cogs"></i> Process Automation</span>
+            <span class="skill"><i class="fas fa-brain"></i> Analytical Thinking</span>
+            <span class="skill"><i class="fas fa-clock"></i> Time Management</span>
+            <span class="skill"><i class="fas fa-comments"></i> Clear Communication</span>
+            <span class="skill"><i class="fas fa-handshake"></i> Team Collaboration</span>
+            <span class="skill"><i class="fas fa-lightbulb"></i> Problem-Solving</span>
+            <span class="skill"><i class="fas fa-eye"></i> Attention to Detail</span>
         </div>
     </section>
 
-    <section id="resume">
+    <section id="resume" style="background: #fff;">
         <h2>Resume</h2>
         <div class="resume-section">
-            <p><strong>Download Full Resume:</strong> <a href="Ralphy Riveral CV 2025.pdf" download>Download PDF</a> (Host this PDF file alongside your index.html on your hosting platform.)</p>
+            <p><strong>Download Full Resume:</strong> <a href="Ralphy Riveral CV 2025.pdf" download>Download PDF</a></p>
 
             <h3>Work History</h3>
             <ul>
@@ -244,7 +436,7 @@
     </section>
 
     <section id="contact">
-        <h2>Contact</h2>
+        <h2>Contact Me</h2>
         <p>Email: <a href="mailto:ralphygriveral@gmail.com">ralphygriveral@gmail.com</a></p>
         <p>Phone: 0939-916-0879</p>
         <p>LinkedIn: <a href="https://www.linkedin.com/in/ralphyriveral" target="_blank">linkedin.com/in/ralphyriveral</a></p>
