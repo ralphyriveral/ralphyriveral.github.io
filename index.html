@@ -6,69 +6,98 @@
   <title>Ralphy G. Riveral | Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Base styles */
+    /* Base Styles */
     body {
       margin: 0;
       font-family: 'Roboto', sans-serif;
-      background-color: #121212;
+      background-color: #0f111a;
       color: #e0e0e0;
       line-height: 1.6;
+      scroll-behavior: smooth;
     }
-
-    a { color: #1db954; text-decoration: none; }
+    a { color: #4cd137; text-decoration: none; }
     a:hover { text-decoration: underline; }
 
     /* Container */
-    .container { width: 90%; max-width: 1000px; margin: 0 auto; padding: 50px 0; }
+    .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 50px 0; }
 
     /* Header */
     header {
       text-align: center;
       padding: 50px 0;
     }
-    header h1 { font-size: 3rem; margin-bottom: 10px; }
+    header h1 { font-size: 3rem; margin-bottom: 10px; color: #4cd137; }
     header p { font-size: 1.2rem; color: #b0b0b0; }
 
     /* Section Titles */
-    h2 { border-bottom: 2px solid #1db954; padding-bottom: 10px; margin-bottom: 30px; }
+    h2 {
+      border-bottom: 2px solid #4cd137;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+      color: #4cd137;
+    }
 
     /* Featured Projects */
     .projects-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 25px;
       justify-content: center;
     }
     .project-card {
       flex: 1 1 300px;
-      background-color: #1f1f1f;
-      border-radius: 10px;
-      padding: 20px;
+      background-color: #1a1c2b;
+      border-radius: 12px;
+      padding: 25px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: transform 0.4s, box-shadow 0.4s, background-color 0.3s;
+      cursor: pointer;
     }
     .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 20px rgba(0,0,0,0.7);
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      background-color: #252744;
     }
 
-    /* Skills / Competencies */
+    /* Skills Section */
     .skills-list {
       display: flex;
       flex-wrap: wrap;
       gap: 15px;
+      justify-content: center;
     }
     .skill {
-      background-color: #1f1f1f;
-      padding: 10px 15px;
-      border-radius: 5px;
+      background-color: #1a1c2b;
+      padding: 12px 20px;
+      border-radius: 6px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-      transition: transform 0.2s;
+      transition: transform 0.3s, background-color 0.3s;
     }
-    .skill:hover { transform: scale(1.05); }
+    .skill:hover {
+      transform: scale(1.1);
+      background-color: #252744;
+    }
 
-    /* Contact */
+    /* References Section */
+    .references {
+      margin-top: 50px;
+    }
+    .references li { margin-bottom: 10px; }
+    .references a { color: #4cd137; }
+
+    /* Footer */
     footer { text-align: center; margin-top: 50px; color: #888; font-size: 0.9rem; }
+
+    /* Fade-in Animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* Responsive */
     @media(max-width: 768px){
@@ -87,13 +116,13 @@
   <div class="container">
 
     <!-- About -->
-    <section id="about">
+    <section id="about" class="fade-in">
       <h2>About Me</h2>
       <p>I’m a Virtual Assistant with over 10 years of experience in data entry, web research, e-commerce support, and digital content creation. I help keep data organized, conduct accurate research, and assist with day-to-day tasks to make workflows run smoothly. With a background in Business Administration and advanced English skills, I communicate clearly and deliver reliable, detail-oriented work in fast-paced environments.</p>
     </section>
 
     <!-- Featured Projects -->
-    <section id="featured-projects">
+    <section id="featured-projects" class="fade-in">
       <h2>Featured Projects</h2>
       <div class="projects-container">
 
@@ -121,7 +150,7 @@
     </section>
 
     <!-- Skills -->
-    <section id="skills">
+    <section id="skills" class="fade-in">
       <h2>Core Skills</h2>
       <div class="skills-list">
         <div class="skill">Data Entry & Analysis</div>
@@ -135,11 +164,38 @@
       </div>
     </section>
 
+    <!-- References -->
+    <section id="references" class="fade-in">
+      <h2>References</h2>
+      <ul class="references">
+        <li>Royce Mitchell – <a href="mailto:royce3@gmail.com">royce3@gmail.com</a> | WhatsApp: +1832 428 8941</li>
+        <li>Josephus Diaz – <a href="mailto:josephusbdiaz@gmail.com">josephusbdiaz@gmail.com</a> | Mobile: +63916 880 2866</li>
+        <li>Sundy Gamale – <a href="mailto:tgrsundy@yahoo.com">tgrsundy@yahoo.com</a> | Mobile: +63917 542 7890</li>
+        <li>Nicole Kate Bagarinao – <a href="mailto:nika.vabb@gmail.com">nika.vabb@gmail.com</a> | Mobile: +63995 412 3732</li>
+      </ul>
+    </section>
+
   </div>
 
   <footer>
     &copy; 2025 Ralphy G. Riveral | <a href="mailto:ralphygriveral@gmail.com">ralphygriveral@gmail.com</a>
   </footer>
+
+  <!-- JS for fade-in on scroll -->
+  <script>
+    const faders = document.querySelectorAll('.fade-in');
+    const options = { threshold: 0.3 };
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, options);
+
+    faders.forEach(fader => { appearOnScroll.observe(fader); });
+  </script>
 
 </body>
 </html>
