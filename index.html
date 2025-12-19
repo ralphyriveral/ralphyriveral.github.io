@@ -1,466 +1,145 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ralphy G. Riveral - Creative Video Editor Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ralphy G. Riveral | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base styles */
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      line-height: 1.6;
+    }
 
-        body {
-            line-height: 1.6;
-            color: #dfe6e9;
-            background-color: #2d3436;
-        }
+    a { color: #1db954; text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-        header {
-            position: relative;
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: #dfe6e9;
-            overflow: hidden;
-        }
+    /* Container */
+    .container { width: 90%; max-width: 1000px; margin: 0 auto; padding: 50px 0; }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://source.unsplash.com/random/1920x1080/?video,editing') no-repeat center center/cover;
-            filter: brightness(0.5);
-            z-index: -1;
-        }
+    /* Header */
+    header {
+      text-align: center;
+      padding: 50px 0;
+    }
+    header h1 { font-size: 3rem; margin-bottom: 10px; }
+    header p { font-size: 1.2rem; color: #b0b0b0; }
 
-        header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 0.5rem;
-            animation: fadeInDown 1s ease-out;
-        }
+    /* Section Titles */
+    h2 { border-bottom: 2px solid #1db954; padding-bottom: 10px; margin-bottom: 30px; }
 
-        header p {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            animation: fadeInUp 1s ease-out;
-        }
+    /* Featured Projects */
+    .projects-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .project-card {
+      flex: 1 1 300px;
+      background-color: #1f1f1f;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.7);
+    }
 
-        .cta-button {
-            background: #ff7675;
-            color: #dfe6e9;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s;
-            animation: fadeIn 1.5s ease-out;
-        }
+    /* Skills / Competencies */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .skill {
+      background-color: #1f1f1f;
+      padding: 10px 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      transition: transform 0.2s;
+    }
+    .skill:hover { transform: scale(1.05); }
 
-        .cta-button:hover {
-            background: #e55050;
-        }
+    /* Contact */
+    footer { text-align: center; margin-top: 50px; color: #888; font-size: 0.9rem; }
 
-        nav {
-            background: rgba(45, 52, 54, 0.9);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        nav a {
-            color: #dfe6e9;
-            text-decoration: none;
-            margin: 0 1.5rem;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #ff7675;
-        }
-
-        section {
-            padding: 4rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            color: #dfe6e9;
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-        }
-
-        h2::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 3px;
-            background: #ff7675;
-            margin: 0.5rem auto 0;
-        }
-
-        #about p {
-            font-size: 1.2rem;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background: #3d4648;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
-
-        .project-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .project-card .content {
-            padding: 1.5rem;
-        }
-
-        .project-card h3 {
-            font-size: 1.5rem;
-            color: #dfe6e9;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-card p {
-            margin-bottom: 1rem;
-        }
-
-        .project-card a {
-            color: #ff7675;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .project-card a:hover {
-            text-decoration: underline;
-        }
-
-        .video-embed {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-
-        .video-embed iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .skill {
-            background: #ff7675;
-            color: #dfe6e9;
-            padding: 0.8rem 1.5rem;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .skill:hover {
-            background: #e55050;
-        }
-
-        .skill i {
-            margin-right: 0.5rem;
-        }
-
-        .resume-section {
-            background: #3d4648;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .resume-section h3 {
-            font-size: 1.8rem;
-            color: #dfe6e9;
-            margin: 1.5rem 0 0.5rem;
-        }
-
-        .resume-section ul {
-            list-style-type: none;
-        }
-
-        .resume-section li {
-            margin-bottom: 1rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .resume-section li::before {
-            content: '\f058';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            color: #ff7675;
-        }
-
-        #contact {
-            text-align: center;
-        }
-
-        #contact p {
-            font-size: 1.2rem;
-            margin: 0.5rem 0;
-        }
-
-        #contact a {
-            color: #ff7675;
-            text-decoration: none;
-        }
-
-        #contact a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            background: #252c2e;
-            color: #dfe6e9;
-            text-align: center;
-            padding: 1rem;
-            margin-top: 2rem;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @media (max-width: 768px) {
-            header h1 { font-size: 2.5rem; }
-            header p { font-size: 1.2rem; }
-            nav a { margin: 0 0.5rem; font-size: 0.9rem; }
-            section { padding: 3rem 1rem; }
-        }
-    </style>
+    /* Responsive */
+    @media(max-width: 768px){
+      .projects-container { flex-direction: column; align-items: center; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Ralphy G. Riveral</h1>
-        <p>Virtual Assistant | Data Entry Specialist | Web Research Expert</p>
-        <a href="#contact" class="cta-button">Get in Touch</a>
-    </header>
 
-    <nav>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#skills">Skills</a>
-        <a href="#resume">Resume</a>
-        <a href="#contact">Contact</a>
-    </nav>
+  <header>
+    <h1>Ralphy G. Riveral</h1>
+    <p>Virtual Assistant | Data Entry Specialist | Web Research Expert</p>
+    <p><a href="https://ralphyriveral.github.io/" target="_blank">Visit Portfolio</a></p>
+  </header>
 
+  <div class="container">
+
+    <!-- About -->
     <section id="about">
-        <h2>About Me</h2>
-        <p>
-            I’m a Virtual Assistant with over 10 years of experience in data entry, web research, and supporting online businesses. I help keep data organized, conduct accurate research, and assist with day-to-day tasks to make workflows run smoothly. With a background in Business Administration and advanced English skills, I communicate clearly and deliver reliable, detail-oriented work in fast-paced environments.
-        </p>
+      <h2>About Me</h2>
+      <p>I’m a Virtual Assistant with over 10 years of experience in data entry, web research, e-commerce support, and digital content creation. I help keep data organized, conduct accurate research, and assist with day-to-day tasks to make workflows run smoothly. With a background in Business Administration and advanced English skills, I communicate clearly and deliver reliable, detail-oriented work in fast-paced environments.</p>
     </section>
 
+    <!-- Featured Projects -->
     <section id="featured-projects">
-  <h2 style="text-align:center; margin-bottom:30px;">Featured Projects</h2>
-  <div class="projects-container" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+      <h2>Featured Projects</h2>
+      <div class="projects-container">
 
-    <div class="project-card" style="flex: 1 1 300px; border: 1px solid #ddd; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s;">
-      <h3>Data Management & Optimization</h3>
-      <p>Organized and maintained large datasets for multiple clients, ensuring accuracy and consistency using Google Sheets and CRM platforms. Streamlined workflows for faster, error-free reporting.</p>
-    </div>
+        <div class="project-card">
+          <h3>Data Management & Optimization</h3>
+          <p>Organized and maintained large datasets for multiple clients, ensuring accuracy and consistency using Google Sheets and CRM platforms. Streamlined workflows for faster, error-free reporting.</p>
+        </div>
 
-    <div class="project-card" style="flex: 1 1 300px; border: 1px solid #ddd; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s;">
-      <h3>Web Research & Lead Generation</h3>
-      <p>Conducted in-depth online research to identify high-potential leads and market insights. Compiled structured research sheets to support marketing campaigns and business decisions.</p>
-    </div>
+        <div class="project-card">
+          <h3>Web Research & Lead Generation</h3>
+          <p>Conducted in-depth online research to identify high-potential leads and market insights. Compiled structured research sheets to support marketing campaigns and business decisions.</p>
+        </div>
 
-    <div class="project-card" style="flex: 1 1 300px; border: 1px solid #ddd; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s;">
-      <h3>Digital Support & Workflow Assistance</h3>
-      <p>Provided virtual assistance to international teams, optimizing daily operations, monitoring projects, and supporting e-commerce initiatives with accuracy and efficiency.</p>
-    </div>
+        <div class="project-card">
+          <h3>Digital Support & Workflow Assistance</h3>
+          <p>Provided virtual assistance to international teams, optimizing daily operations, monitoring projects, and supporting e-commerce initiatives with accuracy and efficiency.</p>
+        </div>
 
-    <div class="project-card" style="flex: 1 1 300px; border: 1px solid #ddd; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s;">
-      <h3>Content & Promotional Assistance</h3>
-      <p>Created clear and engaging content for digital campaigns, including graphics and videos using Canva, Wondershare Filmora, and HeyGen to support marketing and communication efforts.</p>
-    </div>
+        <div class="project-card">
+          <h3>Content & Promotional Assistance</h3>
+          <p>Created clear and engaging content for digital campaigns, including graphics and videos using Canva, Wondershare Filmora, and HeyGen to support marketing and communication efforts.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <h2>Core Skills</h2>
+      <div class="skills-list">
+        <div class="skill">Data Entry & Analysis</div>
+        <div class="skill">Web Research</div>
+        <div class="skill">CRM Platforms (Keap, iContact, Zendesk)</div>
+        <div class="skill">E-Commerce Tools (Shopify, ClickBank, Stripe, PayPal)</div>
+        <div class="skill">Project Management (Trello, Asana, Basecamp)</div>
+        <div class="skill">Content Creation (Canva, Filmora, HeyGen)</div>
+        <div class="skill">Lead Generation</div>
+        <div class="skill">Customer Support</div>
+      </div>
+    </section>
 
   </div>
-</section>
 
-<!-- Hover effect -->
-<style>
-.project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-</style>
+  <footer>
+    &copy; 2025 Ralphy G. Riveral | <a href="mailto:ralphygriveral@gmail.com">ralphygriveral@gmail.com</a>
+  </footer>
 
-    <section id="skills">
-        <h2>My Skills</h2>
-        <div class="skills-grid">
-            <span class="skill"><i class="fas fa-video"></i> Video Editing (Wondershare Filmora)</span>
-            <span class="skill"><i class="fas fa-palette"></i> Canva</span>
-            <span class="skill"><i class="fas fa-robot"></i> HeyGen</span>
-            <span class="skill"><i class="fas fa-search"></i> Web Research</span>
-            <span class="skill"><i class="fas fa-users"></i> Lead Generation</span>
-            <span class="skill"><i class="fas fa-cogs"></i> Process Automation</span>
-            <span class="skill"><i class="fas fa-brain"></i> Analytical Thinking</span>
-            <span class="skill"><i class="fas fa-clock"></i> Time Management</span>
-            <span class="skill"><i class="fas fa-comments"></i> Clear Communication</span>
-            <span class="skill"><i class="fas fa-handshake"></i> Team Collaboration</span>
-            <span class="skill"><i class="fas fa-lightbulb"></i> Problem-Solving</span>
-            <span class="skill"><i class="fas fa-eye"></i> Attention to Detail</span>
-        </div>
-    </section>
-
-    <section id="resume">
-        <h2>Resume</h2>
-        <div class="resume-section">
-            <p><strong>Download Full Resume:</strong> <a href="Ralphy Riveral CV 2025.pdf" download>Download PDF</a></p>
-
-            <h3>Work History</h3>
-            <ul>
-                <li><strong>Data Team Assistant - Creo Networks, California, United States (January 2025 – August 2025)</strong>: Managed GEO Database and Marketplace Relational Database, ensuring data accuracy and accessibility. Performed high-volume data entry, data mining, and optimized workflows using Google Sheets.</li>
-                <li><strong>Digital Marketing Assistant - ITAS Solutions, Texas, United States (November 2024 – January 2025)</strong>: Entered and managed data using Google Docs and Sheets. Served as affiliate partner, designed website using WordPress, managed Facebook page and ads, created posts with Canva.</li>
-                <li><strong>Data Entry Specialist | Administrative Assistant | Funnel Testing - Exercises For Injuries, British Columbia, Canada (March 2017 – November 2024)</strong>: Managed data entry with Keap, conducted A/B testing, created instructional videos with Wondershare Filmora and Canva, streamlined workflows with Trello and ProcessStreet, performed web research.</li>
-                <li><strong>Data Entry Specialist | Lead Generation | Web Research Assistant - Brightgreen Lighting Store, Victoria, Australia (January 2015 – February 2017)</strong>: Updated product listings, conducted web research, utilized Google Sheets and Shopify, designed graphics with Canva.</li>
-                <li><strong>Customer Support Representative - Convergys, Davao, Philippines (June 2014 – December 2014)</strong>: Delivered support via chat and email for Macy’s.com.</li>
-                <li><strong>Technical Support Representative - VXI Global Solutions, LLC, Davao, Philippines (April 2012 – April 2014)</strong>: Provided technical assistance for AT&T, documented processes using Google Docs.</li>
-                <li><strong>Customer & Technical Support Representative - Sutherland Global Services, Inc., Davao, Philippines (June 2009 – February 2012)</strong>: Supported clients through multiple channels, trained new hires.</li>
-            </ul>
-
-            <h3>Education</h3>
-            <p>Bachelor of Science in Commerce, Major in Business Administration - University of the Immaculate Conception, Davao City, Philippines (2005 – 2009)</p>
-
-            <h3>Certifications</h3>
-            <ul>
-                <li>C1 Advanced (Cambridge English): Demonstrating advanced proficiency in English for professional and global communication.</li>
-            </ul>
-
-            <h3>References</h3>
-            <ul>
-                <li>Royce Mitchell - Email: royce3@gmail.com | WhatsApp: +1832 428 8941</li>
-                <li>Josephus Diaz - Email: josephusbdiaz@gmail.com | Mobile Phone: +63916 880 2866</li>
-                <li>Sundy Gamale - Email: tgrsundy@yahoo.com | Mobile Phone: +63917 542 7890</li>
-                <li>Nicole Kate Bagarinao - Email: nika.vabb@gmail.com | Mobile Phone: +63995 412 3732</li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="contact">
-        <h2>Contact Me</h2>
-        <p>Email: <a href="mailto:ralphygriveral@gmail.com">ralphygriveral@gmail.com</a></p>
-        <p>Phone: 0939-916-0879</p>
-        <p>LinkedIn: <a href="https://www.linkedin.com/in/ralphyriveral" target="_blank">linkedin.com/in/ralphyriveral</a></p>
-        <p>Location: Davao City, Philippines</p>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Ralphy G. Riveral. All rights reserved.</p>
-    </footer>
-
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const sectionId = this.getAttribute('href').substring(1);
-                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-    </script>
 </body>
 </html>
