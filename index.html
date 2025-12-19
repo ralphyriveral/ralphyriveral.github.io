@@ -10,7 +10,7 @@
     body {
       margin: 0;
       font-family: 'Roboto', sans-serif;
-      background-color: #f5f5f5; /* light but professional background */
+      background-color: #f5f5f5;
       color: #333;
       line-height: 1.6;
       scroll-behavior: smooth;
@@ -28,6 +28,7 @@
     }
     header h1 { font-size: 3rem; margin-bottom: 10px; color: #1e90ff; }
     header p { font-size: 1.2rem; color: #555; }
+    header p a { margin: 0 10px; }
 
     /* Section Titles */
     h2 {
@@ -37,13 +38,30 @@
       color: #1e90ff;
     }
 
-    /* Featured Projects */
-    .projects-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 25px;
-      justify-content: center;
+    /* Fade-in Animation */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Experience */
+    .experience-item {
+      background-color: #ffffff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
     }
+    .experience-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    .experience-item h3 { color: #1e90ff; margin-bottom: 5px; }
+    .experience-item p em { color: #555; font-size: 0.9rem; }
+    .experience-item ul { margin-top: 10px; padding-left: 20px; }
+    .experience-item ul li { margin-bottom: 5px; }
+
+    /* Featured Projects */
+    .projects-container { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; }
     .project-card {
       flex: 1 1 300px;
       background-color: #ffffff;
@@ -58,13 +76,8 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
 
-    /* Skills Section */
-    .skills-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-    }
+    /* Skills */
+    .skills-list { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
     .skill {
       background-color: #e6f0fa;
       padding: 12px 20px;
@@ -72,49 +85,30 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       transition: transform 0.3s, background-color 0.3s;
     }
-    .skill:hover {
-      transform: scale(1.1);
-      background-color: #d0e4f9;
-    }
+    .skill:hover { transform: scale(1.1); background-color: #d0e4f9; }
 
-    /* References Section */
-    .references {
-      margin-top: 50px;
-    }
+    /* References */
+    .references { margin-top: 50px; }
     .references li { margin-bottom: 10px; }
     .references a { color: #1e90ff; }
 
     /* Footer */
     footer { text-align: center; margin-top: 50px; color: #555; font-size: 0.9rem; }
 
-    /* Fade-in Animation */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
     /* Responsive */
-    @media(max-width: 768px){
-      .projects-container { flex-direction: column; align-items: center; }
-    }
+    @media(max-width: 768px){ .projects-container { flex-direction: column; align-items: center; } }
   </style>
 </head>
 <body>
 
- <header>
-  <h1>Ralphy G. Riveral</h1>
-  <p>Virtual Assistant | Data Entry Specialist | Web Research Expert</p>
-  <p>
-    <a href="https://www.linkedin.com/in/ralphyriveral" target="_blank">LinkedIn</a> | 
-    <a href="mailto:ralphygriveral@gmail.com">ralphygriveral@gmail.com</a>
-  </p>
-</header>
-
+  <header>
+    <h1>Ralphy G. Riveral</h1>
+    <p>Virtual Assistant | Data Entry Specialist | Web Research Expert</p>
+    <p>
+      <a href="https://www.linkedin.com/in/ralphyriveral" target="_blank">LinkedIn</a> | 
+      <a href="mailto:ralphygriveral@gmail.com">ralphygriveral@gmail.com</a>
+    </p>
+  </header>
 
   <div class="container">
 
@@ -122,6 +116,65 @@
     <section id="about" class="fade-in">
       <h2>About Me</h2>
       <p>I’m a Virtual Assistant with over 10 years of experience in data entry, web research, e-commerce support, and digital content creation. I help keep data organized, conduct accurate research, and assist with day-to-day tasks to make workflows run smoothly. With a background in Business Administration and advanced English skills, I communicate clearly and deliver reliable, detail-oriented work in fast-paced environments.</p>
+    </section>
+
+    <!-- Professional Experience -->
+    <section id="experience" class="fade-in">
+      <h2>Professional Experience</h2>
+
+      <div class="experience-item">
+        <h3>Data Team Assistant | Creo Networks, California, USA</h3>
+        <p><em>Jan 2025 – Aug 2025</em></p>
+        <ul>
+          <li>Managed GEO and Marketplace Relational Databases, ensuring data accuracy and accessibility.</li>
+          <li>Performed high-volume data entry for country, region, and city datasets with precision.</li>
+          <li>Conducted data mining to extract insights for marketplace projects and strategic initiatives.</li>
+          <li>Optimized workflows by implementing validation checks, reducing dataset errors.</li>
+        </ul>
+      </div>
+
+      <div class="experience-item">
+        <h3>Digital Marketing Assistant | ITAS Solutions, Texas, USA</h3>
+        <p><em>Nov 2024 – Jan 2025</em></p>
+        <ul>
+          <li>Managed large volumes of data using Google Docs and Sheets accurately.</li>
+          <li>Served as an affiliate partner for Simplified.com, promoting products to targeted audiences.</li>
+          <li>Designed and maintained the official website <a href="https://www.trysimplify.io/" target="_blank">trysimplify.io</a>.</li>
+          <li>Planned, executed, and optimized Facebook ad campaigns to increase engagement.</li>
+          <li>Created and published content using Canva, HeyGen, and Wondershare Filmora.</li>
+        </ul>
+      </div>
+
+      <div class="experience-item">
+        <h3>Virtual Assistant | Exercises For Injuries, British Columbia, Canada</h3>
+        <p><em>Mar 2017 – Nov 2024</em></p>
+        <ul>
+          <li>Optimized marketing funnels for higher sales conversions and improved customer journeys.</li>
+          <li>Conducted pre-launch funnel testing to reduce post-launch issues.</li>
+          <li>Audited client accounts to eliminate duplicates and reduce unnecessary charges.</li>
+          <li>Created documentation for disputes and chargebacks, streamlining resolution processes.</li>
+        </ul>
+      </div>
+
+      <div class="experience-item">
+        <h3>Data Entry Specialist / Lead Generation / Web Research | Brightgreen Lighting Store, Victoria, Australia</h3>
+        <p><em>Jan 2015 – Feb 2017</em></p>
+        <ul>
+          <li>Updated Google Spreadsheets with accurate lead data from verified sources.</li>
+          <li>Conducted web research to identify high-potential leads.</li>
+          <li>Maintained up-to-date records ensuring data integrity across platforms.</li>
+        </ul>
+      </div>
+
+      <div class="experience-item">
+        <h3>Customer Support & Technical Roles | Multiple Companies, Philippines</h3>
+        <p><em>Jun 2009 – Dec 2014</em></p>
+        <ul>
+          <li>Convergys: Assisted Macy’s.com customers via calls, resolving orders, billing, and product inquiries.</li>
+          <li>VXI Global Solutions: Delivered technical support for AT&T customers via phone and email.</li>
+          <li>Sutherland Global Services: Supported global clients of RealPlayer, Rhapsody, and GameHouse, handling chargebacks and technical issues.</li>
+        </ul>
+      </div>
     </section>
 
     <!-- Featured Projects -->
